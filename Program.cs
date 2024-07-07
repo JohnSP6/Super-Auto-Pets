@@ -129,91 +129,64 @@ void gameStore(){
 void gameBattle(){
     //myTeam.Reverse();
     foreach (var item in myTeam){
-        myTempTeam.Add(item);
+        var animal = item;
+        myTempTeam.Add(new Animals(animal.animalName, animal.animalHealth, animal.animalDmg));
     }
     for (int i = 1; i < 4; i++){
         Random rnd = new Random();
-        int randomAnimal  = rnd.Next(0, 9); 
-        enemyTeam.Add(animals[randomAnimal]);
+        int randomAnimal  = rnd.Next(0, 9);
+        var animal = animals[randomAnimal]; 
+        enemyTeam.Add(new Animals(animal.animalName, animal.animalHealth, animal.animalDmg));
     }
-    while (myTeam.Count > 0 || enemyTeam.Count > 0) {
+    while (myTempTeam.Count > 0 || enemyTeam.Count > 0) {
+        if(myTempTeam.Count == 0 && enemyTeam.Count == 0){
+            Console.Write("\n\n The round concluded in a draw.");
+            Console.ReadKey();
+            gameStore();
+        } else if (myTempTeam.Count == 0){
+            Console.Write("YOU LOSE");
+            Console.ReadKey();
+            gameStore();
+        } else if (enemyTeam.Count == 0){
+            Console.Write("YOU WIN");
+            Console.ReadKey();
+            gameStore();
+        }
         Console.Clear();
         Console.Write($"\n                      Super Auto Pets \n  __________________________________________________________\n\n                      Battle Phase! \n" );
         Console.Write("\n  Player \n  ------\n");
-        foreach (var item in myTeam){
+        foreach (var item in myTempTeam){
             Console.Write($"  {item.animalName}  ");
         }
         //Test
-        Console.Write($" Name: {myTeam.First().animalName} | Health: {myTeam.First().animalHealth} | Damage: {myTeam.First().animalDmg}");
+        Console.Write($" Name: {myTempTeam.First().animalName} | Health: {myTempTeam.First().animalHealth} | Damage: {myTempTeam.First().animalDmg}");
         Console.Write("\n  __________________________________________________________\n\n  Enemy \n  ------\n");
         foreach (var item in enemyTeam){
             Console.Write($"  {item.animalName}  ");
         }
         //Test
         Console.Write($" Name: {enemyTeam.First().animalName} | Health: {enemyTeam.First().animalHealth} | Damage: {enemyTeam.First().animalDmg}");
-        Console.Write("\n\n  __________________________________________________________\n\n  Battle Log \n  ----------\n");
-        Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} hurt your {myTeam.First().animalName} for {enemyTeam.First().animalDmg} damage.");
-        myTeam.First().animalHealth = myTeam.First().animalHealth - enemyTeam.First().animalDmg;
+        Console.Write("\n  __________________________________________________________\n\n  Battle Log \n  ----------\n");
+        Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} hurt your {myTempTeam.First().animalName} for {enemyTeam.First().animalDmg} damage.\n ");
+        myTempTeam.First().animalHealth = myTempTeam.First().animalHealth - enemyTeam.First().animalDmg;
         Console.ReadKey();
-        Console.Write($"\n\n Your {myTeam.First().animalName} hurt the enemy's {enemyTeam.First().animalName} for {myTeam.First().animalDmg} damage.");
-        enemyTeam.First().animalHealth = enemyTeam.First().animalHealth - myTeam.First().animalDmg;
+        Console.Write($"\n\n Your {myTempTeam.First().animalName} hurt the enemy's {enemyTeam.First().animalName} for {myTempTeam.First().animalDmg} damage.\n ");
+        enemyTeam.First().animalHealth = enemyTeam.First().animalHealth - myTempTeam.First().animalDmg;
         Console.ReadKey();
-        if (myTeam.First().animalHealth <= 0 && enemyTeam.First().animalHealth <= 0) {
-            Console.Write($"\n\n Both your {myTeam.First().animalName} and enemy's {enemyTeam.First().animalName} has died.");
-            myTeam.Remove(myTeam.First());
+        if (myTempTeam.First().animalHealth <= 0 && enemyTeam.First().animalHealth <= 0) {
+            Console.Write($"\n\n Both your {myTempTeam.First().animalName} and enemy's {enemyTeam.First().animalName} has died.\n ");
+            myTempTeam.Remove(myTempTeam.First());
             enemyTeam.Remove(enemyTeam.First());
             Console.ReadKey();
         } else if (enemyTeam.First().animalHealth <= 0) {
-            Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} has died.");
+            Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} has died.\n ");
             enemyTeam.Remove(enemyTeam.First());
             Console.ReadKey();
-        } else if (myTeam.First().animalHealth <= 0) {
-            Console.Write($"\n  Your {myTeam.First().animalName} has died.");
-            myTeam.Remove(myTeam.First());
+        } else if (myTempTeam.First().animalHealth <= 0) {
+            Console.Write($"\n  Your {myTempTeam.First().animalName} has died.\n ");
+            myTempTeam.Remove(myTempTeam.First());
             Console.ReadKey();
         }
-        // var yourResult = myTeam.First().animalHealth - enemyTeam.First().animalDmg;
-        // var theirResult = enemyTeam.First().animalHealth - myTeam.First().animalDmg;
-        // if(yourResult <= 0){
-        //     Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} hurt your {myTeam.First().animalName} for {enemyTeam.First().animalDmg} damage.");
-        //     myTeam.First().animalHealth = myTeam.First().animalHealth - enemyTeam.First().animalDmg;
-        //     Console.Write($"\n  Your {myTeam.First().animalName} has died.");
-        //     myTeam.Remove(myTeam.First());
-        //     Console.ReadKey();
-        // } else if (theirResult <= 0) {
-        //     Console.Write($"\n\n Your {myTeam.First().animalName} hurt the enemy's {enemyTeam.First().animalName} for {myTeam.First().animalDmg} damage.");
-        //     enemyTeam.First().animalHealth = enemyTeam.First().animalHealth - myTeam.First().animalDmg;
-        //     Console.ReadKey();
-        //     Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} has died.");
-        //     enemyTeam.Remove(enemyTeam.First());
-        //     Console.ReadKey();
-        // } else if (yourResult <= 0 && theirResult <= 0) {
-        //     Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} hurt your {myTeam.First().animalName} for {enemyTeam.First().animalDmg} damage.");
-        //     myTeam.First().animalHealth = myTeam.First().animalHealth - enemyTeam.First().animalDmg;
-        //     Console.Write($"\n\n Your {myTeam.First().animalName} hurt the enemy's {enemyTeam.First().animalName} for {myTeam.First().animalDmg} damage.");
-        //     enemyTeam.First().animalHealth = enemyTeam.First().animalHealth - myTeam.First().animalDmg;
-        //     Console.Write($"\n\n Both your {myTeam.First().animalName} and enemy's {enemyTeam.First().animalName} has died.");
-        //     myTeam.Remove(myTeam.First());
-        //     enemyTeam.Remove(enemyTeam.First());
-        //     Console.ReadKey();
-        // } else {
-        //     Console.Write($"\n\n Your {myTeam.First().animalName} hurt the enemy's {enemyTeam.First().animalName} for {myTeam.First().animalDmg} damage.");
-        //     enemyTeam.First().animalHealth = enemyTeam.First().animalHealth - myTeam.First().animalDmg;
-        //     Console.ReadKey();
-        //     Console.Write($"\n\n The enemy's {enemyTeam.First().animalName} hurt your {myTeam.First().animalName} for {enemyTeam.First().animalDmg} damage.");
-        //     myTeam.First().animalHealth = myTeam.First().animalHealth - enemyTeam.First().animalDmg;
-        //     Console.ReadKey();
-        // }
-    }
-    if (myTeam.Count == 0) {
-        Console.WriteLine($"\n  You Lose! " );
-        Console.ReadKey();
-    } else if (enemyTeam.Count == 0 && myTeam.Count == 0) {
-        Console.WriteLine($"\n  It's a Draw! " );
-        Console.ReadKey();
-    } else {
-        Console.WriteLine($"\n  You Win! " );
-        Console.ReadKey();
     }
 }
 
