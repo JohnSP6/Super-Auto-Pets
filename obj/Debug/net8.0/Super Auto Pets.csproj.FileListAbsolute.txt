@@ -1,0 +1,14 @@
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\bin\Debug\net8.0\Super Auto Pets.exe
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\bin\Debug\net8.0\Super Auto Pets.deps.json
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\bin\Debug\net8.0\Super Auto Pets.runtimeconfig.json
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\bin\Debug\net8.0\Super Auto Pets.dll
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\bin\Debug\net8.0\Super Auto Pets.pdb
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.AssemblyInfoInputs.cache
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.AssemblyInfo.cs
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.csproj.CoreCompileInputs.cache
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.dll
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\refint\Super Auto Pets.dll
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.pdb
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.genruntimeconfig.cache
+C:\Users\Desktop\Desktop\C#_Practice\Super Auto Pets\obj\Debug\net8.0\ref\Super Auto Pets.dll
