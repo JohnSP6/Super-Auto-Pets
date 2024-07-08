@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Super Auto Pets")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0747f14964ed861b7abd69f1e84febca006a798a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ea09148e578f24da047acd3c1bafc255cc7a6975")]
 [assembly: System.Reflection.AssemblyProductAttribute("Super Auto Pets")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Super Auto Pets")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
