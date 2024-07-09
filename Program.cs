@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System.Runtime.Serialization;
 using System.Security.Cryptography;
 
 List<Animals> animals = [];
@@ -6,7 +6,13 @@ List<Animals> myTeam = [];
 List<Animals> tempStore = [];
 List<Animals> enemyTeam = [];
 List<Animals> myTempTeam = [];
+List<Animals> tempOrder = [];
+List<Animals> myOldTeam = [];
 int roundNum = 1;
+bool firstTime = true;
+bool reroll = true;
+//Coins are allocated to the player during shop phase.
+int coins = 10;
 
 Animals fish = new ("Fish", 3, 2);
 Animals ant = new ("Ant", 2, 2);
@@ -17,6 +23,7 @@ Animals mosquito = new ("Mosquito", 2, 2);
 Animals pig = new ("Pig", 1, 4);
 Animals otter = new ("Otter", 3, 1);
 Animals horse = new ("Horse", 1, 2);
+Animals empty = new ("   ", 0, 0);
 animals.Add(fish);
 animals.Add(ant);
 animals.Add(cricket);
@@ -69,19 +76,29 @@ void mainMenu(){
 
 void gameStore(){
     Console.Clear();
-    //Coins are allocated to the player during shop phase.
-    int coins = 9;
     //Refreshes the store until all coins are used.
     while (coins > 0) {
         Console.Clear();
         Console.Write($"\n                      Super Auto Pets \n  __________________________________________________________\n\n  Store: {coins} coins.                                   Round: {roundNum}\n\n" );
         //Randomly selects 3 animals from list to display in the store
-        for (int i = 1; i < 4; i++){
-            Random rnd = new Random();
-            int randomAnimal  = rnd.Next(0, animals.Count); 
-            Console.WriteLine($"  {i}. {animals[randomAnimal].animalName} ");
-            //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
-            tempStore.Add(animals[randomAnimal]);
+        if (firstTime || reroll) {
+            tempStore.Clear();
+            for (int i = 1; i < 4; i++){
+                Random rnd = new Random();
+                int randomAnimal  = rnd.Next(0, animals.Count); 
+                Console.WriteLine($"  {i}. {animals[randomAnimal].animalName} ");
+                //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
+                tempStore.Add(animals[randomAnimal]);
+            }
+            firstTime = false;
+            reroll = false;
+            //storePets();
+        } else {
+            for (int i = 0; i < tempStore.Count; i++){
+                Console.WriteLine($"  {i+1}. {tempStore[i].animalName} ");
+                //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
+                //tempStore.Add(animals[randomAnimal]);
+            }
         }
         //Displays the animals in the player's team.
         Console.Write("\n  __________________________________________________________\n\n  Your Team:  ");
@@ -89,54 +106,131 @@ void gameStore(){
             Console.Write($" {item.animalName}  ");
         }
         Console.Write("\n  __________________________________________________________\n ");
-        Console.Write("\n\n  Please select which animal to purchase? \n\n  ");
-        //Prevent invalid input
-        try {
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice > animals.Count) {
-                Console.Clear();
-                Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  " );
-                myTeam.Clear();
+        Console.Write("\n\n  Please select which animal to purchase. \n  If you would like to sell a pet, please type 's'. \n  If you would like to re-rell the store, please type 'r'. \n\n  ");
+        string? choice1 = Console.ReadLine();
+        if (choice1 == "r" || choice1 == "R") {
+            coins -= 1;
+            reroll = true;
+            gameStore();
+        } else if (choice1 == "s" || choice1 == "S") {
+            sellPets();
+            gameStore();
+        } else {
+            try {
+                int choice2 = Convert.ToInt32(choice1);
+                if (choice2 > tempStore.Count) {
+                    Console.Clear();
+                    Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  " );
+                    //myTeam.Clear();
+                    Console.ReadKey();
+                    gameStore();
+                } else {
+                    //Deducts coin value upon selecting an animal.
+                    coins -= 3;
+                    //The object/animal selected by the player is sent to the player's team list and the temp list is cleared. 
+                    myTeam.Add(tempStore[choice2 - 1]);
+                    tempStore.RemoveAt(choice2 - 1);
+                    //tempStore.Clear();
+                }
+            } catch (Exception ex) {
+                //Console.Clear();
+                Console.Write($"\n  Super Auto Pets \n\n  Sorry, wrong input. Please try again!\n " + ex.Message );
+                //myTeam.Clear();
                 Console.ReadKey();
                 gameStore();
-            } else {
-                //Deducts coin value upon selecting an animal.
-                coins -= 3;
-                //The object/animal selected by the player is sent to the player's team list and the temp list is cleared. 
-                myTeam.Add(tempStore[choice - 1]);
-                tempStore.Clear();
             }
-        } catch (Exception ex) {
-            //Console.Clear();
-            Console.Write($"\n  Super Auto Pets \n\n  Sorry, wrong input. Please try again!\n "+ ex.Message );
-            myTeam.Clear();
-            Console.ReadKey();
-            gameStore();
         }
     }
-    //Console.ReadKey();
     Console.Clear();
     Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n" );
     Console.Write("\n  Your Team:  ");
     foreach (var item in myTeam){
         Console.Write($" {item.animalName}  ");
     }
-    Console.Write("\n  __________________________________________________________\n\n  Press Enter to move onto the Battle Stage! \n\n  ");
-    Console.ReadKey();
-    gameBattle();
+    Console.Write("\n  __________________________________________________________\n\n  Would you like to rearrange your team? (Y/N)\n  ");
+    string? choice = Console.ReadLine();
+    if (choice == "Y" || choice == "y") {
+        arrangePets();
+        Console.Write("\n  __________________________________________________________\n\n  The battle phase has begun. \n  ");
+        Console.ReadKey();
+        gameBattle();
+    } else {
+        gameBattle();
+    }
 }
 
-// void storePets(){
-//     List<Animals> tempStore = [];
-//     //tempStore.Clear();
-//     for (int i = 1; i < 4; i++){
-//         Random rnd = new Random();
-//         int randomAnimal  = rnd.Next(0, animals.Count); 
-//         Console.WriteLine($"  {i}. {animals[randomAnimal].animalName} ");
-//         //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
-//         tempStore.Add(animals[randomAnimal]);
-//     }
-// }
+void sellPets () {
+    Console.Clear();
+    Console.Write($"\n                      Super Auto Pets \n  __________________________________________________________\n\n");
+    for (int i = 0; i < myTeam.Count; i++){
+        Console.WriteLine($"  {i + 1}. {myTeam[i].animalName}  ");
+        //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
+    }
+    Console.Write("\n\n  Please select which animal to sell. \n  NOTE: Most pets are sold for 1 coin. With the exception of pets with sell abilities. \n\n  ");
+    try {
+        int choice = Convert.ToInt32(Console.ReadLine());
+        if (choice > myTeam.Count) {
+            Console.Clear();
+            Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  " );
+            //myTeam.Clear();
+            Console.ReadKey();
+            sellPets ();
+        } else {
+            //Deducts coin value upon selecting an animal.
+            coins += 1;
+            //The object/animal selected by the player is sent to the player's team list and the temp list is cleared. 
+            myTeam.RemoveAt(choice - 1);
+            //tempStore.Clear();
+        }
+    } catch (Exception ex) {
+        //Console.Clear();
+        Console.Write($"\n  Super Auto Pets \n\n  Sorry, wrong input. Please try again!\n " + ex.Message );
+        //myTeam.Clear();
+        Console.ReadKey();
+        sellPets ();
+    }
+}
+
+void arrangePets() {
+    bool repeat = true;
+    foreach (var item in myTeam){
+        myOldTeam.Add(item);
+    }
+    while (repeat) {
+        Console.Clear();
+        Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n" );
+        Console.Write("\n  Your Team:  ");
+        foreach (var item in myTeam){
+            Console.Write($" {item.animalName}  ");
+        }
+        Console.Write("\n  __________________________________________________________\n\n");
+        for (int i = 0; i < myOldTeam.Count; i++){
+            Console.WriteLine($"  {i+1}. {myOldTeam[i].animalName} ");
+        }
+        Console.Write("\n  __________________________________________________________\n\n  New Order:  ");
+        foreach (var item in tempOrder){
+            Console.Write($" {item.animalName}  ");
+        }
+        Console.Write("\n  __________________________________________________________\n\n  Select each pet in the order that you want. \n  ");
+        int orderChoice = Convert.ToInt32(Console.ReadLine());
+        tempOrder.Add(myOldTeam[orderChoice - 1]);
+        myOldTeam.RemoveAt(orderChoice - 1);
+        if (myOldTeam.Count == 0) {
+            break;
+        }
+    }
+    myTeam.Clear();
+    for (int i = 0; i < tempOrder.Count; i++){
+        myTeam.Add(tempOrder[i]);
+    }
+    tempOrder.Clear();
+    Console.Clear();
+    Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n" );
+    Console.Write("\n  Your Team:  ");
+    foreach (var item in myTeam){
+        Console.Write($" {item.animalName}  ");
+    }  
+}
 
 void gameBattle(){
     foreach (var item in myTeam){
@@ -231,7 +325,7 @@ public class Animals
 //   - Add 3 - 5 random animals from the full animal list to the store. [Done -3 animals]
 //   - Add coin system [Done]
 //   - Add player's team with rearrangement feature
-//   - Add re-roll store feature 
-//   - Add sell option
+//   - Add re-roll store feature [Done]
+//   - Add sell option [Done]
 // - Make a battle phase
 //   - Generate random enemy team [Done]
