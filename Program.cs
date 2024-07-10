@@ -9,6 +9,8 @@ List<Animals> enemyTeam = [];
 List<Animals> myTempTeam = [];
 List<Animals> tempOrder = [];
 List<Animals> myOldTeam = [];
+
+List<string> lines = [];
 //Keeps tracks of the number of rounds
 int roundNum = 1;
 //Checks if this is the first time the player entered the store
@@ -23,24 +25,13 @@ int wins = 0;
 int health = 5;
 
 //Populates the list with animal data
-Animals fish = new ("Fish", 3, 2);
-Animals ant = new ("Ant", 2, 2);
-Animals cricket = new ("Cricket", 3, 1);
-Animals beaver = new ("Beaver", 2, 3);
-Animals duck = new ("Duck", 3, 2);
-Animals mosquito = new ("Mosquito", 2, 2);
-Animals pig = new ("Pig", 1, 4);
-Animals otter = new ("Otter", 3, 1);
-Animals horse = new ("Horse", 1, 2);
-animals.Add(fish);
-animals.Add(ant);
-animals.Add(cricket);
-animals.Add(beaver);
-animals.Add(duck);
-animals.Add(mosquito);
-animals.Add(pig);
-animals.Add(otter);
-animals.Add(horse);
+string filepath = @"Animals.txt";
+lines = File.ReadAllLines(filepath).ToList();
+foreach (string line in lines) {
+    string[] items = line.Split(',');
+    Animals animal = new Animals(items[0], Convert.ToInt32(items[1]), Convert.ToInt32(items[2]));
+    animals.Add(animal);
+}
 
 mainMenu();
 
