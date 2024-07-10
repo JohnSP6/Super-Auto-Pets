@@ -17,9 +17,9 @@ bool firstTime = true;
 bool reroll = true;
 //Coins are allocated to the player during shop phase.
 int coins = 10;
-
+//Set the number of wins to 0
 int wins = 0;
-
+//Player has a health of 5
 int health = 5;
 
 //Populates the list with animal data
@@ -47,7 +47,7 @@ mainMenu();
 void mainMenu(){
     Console.Clear();
     // Displays the Main Menu
-    Console.Write("\n        Super Auto Pets \n  ____________________________\n\n  1. Play \n  2. Create Animal \n  3. Exit \n  ____________________________\n\n  ");
+    Console.Write("\n        Super Auto Pets \n  ____________________________\n\n  1. Play \n  2. Animal Encyclopedia \n  3. Exit \n  ____________________________\n\n  ");
     //Prevent invalid input
     try{
         int selection = Convert.ToInt32(Console.ReadLine());
@@ -64,7 +64,7 @@ void mainMenu(){
                 gameStore();
             } else if (selection == 2) {
                 //User is shown all the animals available
-                
+                animalEncyclopedia();
             } else if (selection == 3) {
                 //Game is closed
                 Console.Clear();
@@ -361,6 +361,18 @@ void gameOver(){
     } else {
         gameStore();
     }
+}
+
+void animalEncyclopedia(){
+    Console.Clear();
+    Console.Write("\n        Super Auto Pets \n  ____________________________\n\n\n      Animal Encyclopedia\n\n" );
+    foreach (var item in animals){
+        //Console.Write($"  {item.animalName}  ");
+        Console.Write($"\n  Name  : {item.animalName}\n  Health: {item.animalHealth}\n  Damage: {item.animalDmg}");
+        Console.WriteLine("\n  __________________________________");
+    }
+    Console.ReadKey();
+    mainMenu();
 }
 
 //Creates objects known as animals
