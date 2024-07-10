@@ -2,8 +2,8 @@ Fish, 3, 2
 Ant, 2, 2
 Cricket, 3, 1
 Beaver, 2, 3
-Duck", 3, 2
-Mosquito", 2, 2
-Pig", 1, 4
-Otter", 3, 1
-Horse", 1, 2
+Duck, 3, 2
+Mosquito, 2, 2
+Pig, 1, 4
+Otter, 3, 1
+Horse, 1, 2
