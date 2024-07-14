@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Desktop\\Desktop\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
+      "projectUniqueName": "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
       "projectName": "Super Auto Pets",
-      "projectPath": "C:\\Users\\Desktop\\Desktop\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
+      "projectPath": "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
       "packagesPath": "C:\\Users\\Desktop\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Desktop\\Desktop\\C#_Practice\\Super Auto Pets\\obj\\",
+      "outputPath": "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
