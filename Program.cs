@@ -205,29 +205,65 @@ void gameStore(){
 void sellPets () {
     Console.Clear();
     Console.Write($"\n                      Super Auto Pets \n  __________________________________________________________\n\n");
-    //Displays all the pets in the players team
-    for (int i = 0; i < myTeam.Count; i++){
-        Console.WriteLine($"  {i + 1}. {myTeam[i].animalName}  ");
-    }
-    Console.Write("\n\n  Please select which animal to sell. \n  NOTE: Most pets are sold for 1 coin. With the exception of pets with sell abilities. \n\n  ");
-    try {
-        int choice = Convert.ToInt32(Console.ReadLine());
-        if (choice > myTeam.Count) {
-            Console.Clear();
-            Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  " );
-            Console.ReadKey();
-            sellPets ();
-        } else {
-            //Adds coin value upon selecting an animal to sell.
-            coins += 1;
-            //The animal selected is removed from the player's team. 
-            myTeam.RemoveAt(choice - 1);
-        }
-    } catch (Exception ex) {
-        Console.Write($"\n  Super Auto Pets \n\n  Sorry, wrong input. Please try again!  \n\n  {ex.Message} ");
+    //Checks if there are any pets in the player's team
+    if (myTeam.Count == 0)
+    {
+        Console.Write("   You have no pets to sell. \n  ");
+        Console.Write("\n  __________________________________________________________\n\n  Press any key to return to the store. \n  ");
         Console.ReadKey();
-        sellPets ();
+        gameStore();
+        return;
     }
+    else
+    {
+        //Displays all the pets in the players team
+        for (int i = 0; i < myTeam.Count; i++)
+        {
+            Console.WriteLine($"  {i + 1}. {myTeam[i].animalName}  ");
+        }
+        Console.Write("\n  __________________________________________________________\n\n ");
+        Console.Write("\n\n  Please select which animal to sell. \n  NOTE: Most pets are sold for 1 coin. With the exception of pets with sell abilities. \n ");
+        Console.Write("\n  Press 'B' to go back to the store. \n\n  ");
+
+        string? userInput = Console.ReadLine();
+        if (userInput.ToLower().Trim() == "b")
+        {
+            gameStore();
+            return;
+        }
+        else
+        {
+            try
+            {
+                int choice = Convert.ToInt32(userInput);
+                if (choice > myTeam.Count)
+                {
+                    Console.Clear();
+                    Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  ");
+                    Console.ReadKey();
+                    sellPets();
+                }
+                else
+                {
+                    //Adds coin value upon selecting an animal to sell.
+                    coins += 1;
+                    //The animal selected is removed from the player's team. 
+                    Console.Write($"\n  Your {myTeam[choice-1].animalName} has been sold. \n  ");
+                    Console.ReadKey();
+                    myTeam.RemoveAt(choice - 1);
+                    sellPets();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write($"\n\n  Sorry, wrong input. Please try again!  \n\n  {ex.Message} ");
+                Console.ReadKey();
+                sellPets();
+            }
+        }
+        
+    }
+
 }
 
 //Arranging pets order function. 
