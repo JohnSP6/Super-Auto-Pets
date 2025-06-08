@@ -9,6 +9,7 @@ List<Animals> enemyTeam = [];
 List<Animals> myTempTeam = [];
 List<Animals> tempOrder = [];
 List<Animals> myOldTeam = [];
+List<Animals> frozenPets = [];
 
 //Keeps tracks of the number of rounds
 int roundNum = 1;
@@ -31,7 +32,10 @@ foreach (string line in lines) {
 }
 mainMenu();
 
+#region Main Menu 
+
 void mainMenu(){
+    firstTime = true;
     Console.Clear();
     // Displays the Main Menu
     Console.Write("\n        Super Auto Pets \n  ____________________________\n\n  1. Play \n  2. Animal Encyclopedia \n  3. Exit \n  ____________________________\n\n  ");
@@ -66,6 +70,21 @@ void mainMenu(){
     }
 }
 
+void animalEncyclopedia(){
+    Console.Clear();
+    Console.Write("\n        Super Auto Pets \n  ____________________________\n\n\n      Animal Encyclopedia\n\n" );
+    foreach (var item in animals){
+        //Console.Write($"  {item.animalName}  ");
+        Console.Write($"\n  Name  : {item.animalName}\n  Health: {item.animalHealth}\n  Damage: {item.animalDmg}\n  __________________________________");
+    }
+    Console.ReadKey();
+    mainMenu();
+}
+
+#endregion
+
+#region Game Store
+//Opens the game store. 
 void gameStore(){
     Console.Clear();
     //Recalls the store until all coins are used.
@@ -76,21 +95,50 @@ void gameStore(){
         if (firstTime || reroll) {
             //Clears the list that saved the previous store's data
             tempStore.Clear();
-            //Randomly selects 3 animals from full animal list to display in the store
-            for (int i = 1; i < 4; i++){
-                Random rnd = new Random();
-                int randomAnimal  = rnd.Next(0, animals.Count); 
-                Console.WriteLine($"  {i}. {animals[randomAnimal].animalName} ");
-                //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
-                tempStore.Add(animals[randomAnimal]);
+            if (roundNum > 2) {
+                //Randomly selects 5 animals from full animal list to display in the store
+                for (int i = 1; i < 6; i++){
+                    Random rnd = new Random();
+                    int randomAnimal  = rnd.Next(0, animals.Count); 
+                    Console.WriteLine($"  {i}. {animals[randomAnimal].animalName} ");
+                    //Adds the 5 random animals to a new list so the user can select which to choose based on the UI.
+                    tempStore.Add(animals[randomAnimal]);
+                }
+            } else if (roundNum > 1) {
+                //Randomly selects 4 animals from full animal list to display in the store
+                for (int i = 1; i < 5; i++){
+                    Random rnd = new Random();
+                    int randomAnimal  = rnd.Next(0, animals.Count); 
+                    Console.WriteLine($"  {i}. {animals[randomAnimal].animalName} ");
+                    //Adds the 4 random animals to a new list so the user can select which to choose based on the UI.
+                    tempStore.Add(animals[randomAnimal]);
+                }
+            } else {
+                // foreach (var item in frozenPets){
+                //     Console.Write($"  {item.animalName} [FROZEN] \n");
+                // }
+                //Randomly selects 3 animals from full animal list to display in the store
+                for (int i = 1; i < (4 - frozenPets.Count); i++) {
+                    Random rnd = new Random();
+                    int randomAnimal  = rnd.Next(0, animals.Count); 
+                    Console.WriteLine($"  {i + frozenPets.Count}. {animals[randomAnimal].animalName} ");
+                    //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
+                    tempStore.Add(animals[randomAnimal]);
+                }
+                if (frozenPets.Count != 0) {
+                    tempStore.Add(frozenPets[frozenPets.Count - 1]);
+                }
             }
             //Changes the bool values to false to make it so that when the store is refreshed, the store animals are saved
             firstTime = false;
             reroll = false;
         } else {
+            foreach (var item in frozenPets){
+                Console.Write($"  {item.animalName} [FROZEN] \n");
+            }
             //Displays the store animals
             for (int i = 0; i < tempStore.Count; i++){
-                Console.WriteLine($"  {i+1}. {tempStore[i].animalName} ");
+                Console.WriteLine($"  {i + frozenPets.Count +1}. {tempStore[i].animalName} ");
             }
         }
         //Displays the animals in the player's team.
@@ -98,7 +146,7 @@ void gameStore(){
         foreach (var item in myTeam){
             Console.Write($" {item.animalName}  ");
         }
-        Console.Write($"\n  __________________________________________________________\n\n  Wins: {wins}                                          Health: {health} \n\n  Please select which animal to purchase. \n  If you would like to sell a pet, please type 's'. \n  If you would like to re-rell the store, please type 'r'. \n\n  ");
+        Console.Write($"\n  __________________________________________________________\n\n  Wins: {wins}                                          Health: {health} \n\n  Please select which animal to purchase. \n  Type 's' to sell a pet. \n  Type 'r' to re-roll store. \n  Type 'b' to start the battle.  \n\n  ");
         string? choice1 = Console.ReadLine();
         //If the user chooses to reroll the shop
         if (choice1 == "r" || choice1 == "R") {
@@ -109,6 +157,16 @@ void gameStore(){
         } else if (choice1 == "s" || choice1 == "S") {
             sellPets();
             gameStore();
+        } else if (choice1 == "b" || choice1 == "B") {
+            startBattle();
+        } else if (choice1 == "f" || choice1 == "F"){
+            // foreach (var item in frozenPets){
+            //     Console.Write($" {item.animalName}  ");
+            // }
+            Console.WriteLine("  Which pet would you like to freeze?\n");
+            string? choice3 = Console.ReadLine();
+            int choice = Convert.ToInt32(choice3);
+            frozenPets.Add(tempStore[choice - 1]);
         } else {
             try {
                 int choice2 = Convert.ToInt32(choice1);
@@ -119,11 +177,18 @@ void gameStore(){
                     Console.ReadKey();
                     gameStore();
                 } else {
-                    //Deducts coin value upon selecting an animal.
-                    coins -= 3;
-                    //The object/animal selected by the player is sent to the player's team list and the temp list is cleared. 
-                    myTeam.Add(tempStore[choice2 - 1]);
-                    tempStore.RemoveAt(choice2 - 1);
+                    if (myTeam.Count == 5) {
+                        //Console.Clear();
+                        Console.Write($"  __________________________________________________________\n\n               Your team is already full. \n   __________________________________________________________");
+                        Console.ReadKey();
+                        gameStore();
+                    } else {
+                        //Deducts coin value upon selecting an animal.
+                        coins -= 3;
+                        //The object/animal selected by the player is sent to the player's team list and the temp list is cleared. 
+                        myTeam.Add(tempStore[choice2 - 1]);
+                        tempStore.RemoveAt(choice2 - 1);
+                    }
                 }
             } catch (Exception ex) {
                 Console.Clear();
@@ -133,28 +198,10 @@ void gameStore(){
             }
         }
     }
-    Console.Clear();
-    //Displays player's team in current order
-    Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n\n  Your Team:  " );
-    foreach (var item in myTeam){
-        Console.Write($" {item.animalName}  ");
-    }
-    //Prompts the player to see if they want to rearrange their team.
-    Console.Write("\n  __________________________________________________________\n\n  Would you like to rearrange your team? (Y/N)\n  ");
-    string? choice = Console.ReadLine();
-    if (choice == "Y" || choice == "y") {
-        arrangePets();
-        //Goes to the battle phase once user arranged their team. 
-        Console.Write("\n  __________________________________________________________\n\n  The battle phase has begun. \n  ");
-        Console.ReadKey();
-        gameBattle();
-    } else {
-        //Immediately goes to the battle stage
-        gameBattle();
-    }
+    startBattle();
 }
 
-//Selling pets function
+//Selling pets function. 
 void sellPets () {
     Console.Clear();
     Console.Write($"\n                      Super Auto Pets \n  __________________________________________________________\n\n");
@@ -183,7 +230,7 @@ void sellPets () {
     }
 }
 
-//Arranging pets order function
+//Arranging pets order function. 
 void arrangePets() {
     bool repeat = true;
     foreach (var item in myTeam){
@@ -233,16 +280,51 @@ void arrangePets() {
     }
 }
 
+//Starts the battle. 
+void startBattle () {
+    Console.Clear();
+    //Displays player's team in current order
+    Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n\n  Your Team:  " );
+    foreach (var item in myTeam){
+        Console.Write($" {item.animalName}  ");
+    }
+    //Prompts the player to see if they want to rearrange their team.
+    Console.Write("\n  __________________________________________________________\n\n  Would you like to rearrange your team? (Y/N)\n  ");
+    string? choice = Console.ReadLine();
+    if (choice == "Y" || choice == "y") {
+        arrangePets();
+        //Goes to the battle phase once user arranged their team. 
+        Console.Write("\n  __________________________________________________________\n\n  The battle phase has begun. \n  ");
+        Console.ReadKey();
+        gameBattle();
+    } else {
+        //Immediately goes to the battle stage
+        gameBattle();
+    }
+}
+#endregion
+
+#region Game Battle
 void gameBattle(){
     foreach (var item in myTeam){
         myTempTeam.Add(new Animals(item.animalName, item.animalHealth, item.animalDmg));
     }
-    for (int i = 1; i < myTeam.Count + 1; i++){
-        Random rnd = new Random();
-        int randomAnimal  = rnd.Next(0, animals.Count);
-        enemyTeam.Add(new Animals(animals[randomAnimal].animalName, animals[randomAnimal].animalHealth, animals[randomAnimal].animalDmg));
+    if (roundNum == 1) {
+        for (int i = 0; i < 3; i++){
+            Random rnd = new Random();
+            int randomAnimal  = rnd.Next(0, animals.Count);
+            enemyTeam.Add(new Animals(animals[randomAnimal].animalName, animals[randomAnimal].animalHealth, animals[randomAnimal].animalDmg));
+        }
+    } else {
+       for (int i = 0; i < 5; i++){
+            Random rnd = new Random();
+            int randomAnimal  = rnd.Next(0, animals.Count);
+            enemyTeam.Add(new Animals(animals[randomAnimal].animalName, animals[randomAnimal].animalHealth, animals[randomAnimal].animalDmg));
+        } 
     }
+    
     while (myTempTeam.Count > 0 || enemyTeam.Count > 0) {
+        //TO DO - Further testing should be done on draws
         if (myTempTeam.Count == 0){
             Console.Write("\n  You have lost!");
             health -= 1;
@@ -251,7 +333,7 @@ void gameBattle(){
         } else if (enemyTeam.Count == 0){
             Console.Write("\n  You have Won!");
             Console.ReadKey();
-            wins =+ 1;
+            wins += 1;
             myTempTeam.Clear();
             gameOver();
         } else {
@@ -264,9 +346,9 @@ void gameBattle(){
             foreach (var item in enemyTeam){
                 Console.Write($"  {item.animalName}  ");
             }
+            Console.Write($" ]\n\n  Name  : {enemyTeam.First().animalName}\n  Health: {enemyTeam.First().animalHealth}\n  Damage: {enemyTeam.First().animalDmg}\n  __________________________________________________________\n\n\n  Battle Log \n  ----------\n\n  Enemy {enemyTeam.First().animalName} > {myTempTeam.First().animalName}  {enemyTeam.First().animalDmg} damage.\n\n  Ally {myTempTeam.First().animalName} > {enemyTeam.First().animalName}  {myTempTeam.First().animalDmg} damage.\n  ");
             myTempTeam.First().animalHealth = myTempTeam.First().animalHealth - enemyTeam.First().animalDmg;
             enemyTeam.First().animalHealth = enemyTeam.First().animalHealth - myTempTeam.First().animalDmg;
-            Console.Write($" ]\n\n  Name  : {enemyTeam.First().animalName}\n  Health: {enemyTeam.First().animalHealth}\n  Damage: {enemyTeam.First().animalDmg}\n  __________________________________________________________\n\n\n  Battle Log \n  ----------\n\n  Enemy {enemyTeam.First().animalName} > {myTempTeam.First().animalName}  {enemyTeam.First().animalDmg} damage.\n\n  Ally {myTempTeam.First().animalName} > {enemyTeam.First().animalName}  {myTempTeam.First().animalDmg} damage.\n  ");
             if (myTempTeam.First().animalHealth <= 0 && enemyTeam.First().animalHealth <= 0) {
                 Console.Write($"\n  Both your {myTempTeam.First().animalName} and enemy's {enemyTeam.First().animalName} has died.\n  ");
                 myTempTeam.Remove(myTempTeam.First());
@@ -293,7 +375,9 @@ void gameBattle(){
     Console.ReadKey();
     gameStore(); 
 }
+#endregion
 
+#region End Game
 void gameOver(){
     Console.Clear();
     Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n\n  Your Team:  " );
@@ -301,7 +385,7 @@ void gameOver(){
         Console.Write($" {item.animalName}  ");
     }
     Console.Write("\n  __________________________________________________________\n\n");
-    if (wins == 10) {
+    if (wins == 2) {
         Console.Write("\n  CONGRADULATIONS! You have won Super Auto Pets! ");
         Console.ReadKey();
         myTeam.Clear();
@@ -315,58 +399,41 @@ void gameOver(){
         Console.ReadKey();
         myTeam.Clear();
         myTempTeam.Clear();
+        enemyTeam.Clear();
         roundNum = 1;
         wins = 0;
         health = 5;
         mainMenu();
     } else {
+        enemyTeam.Clear();
         firstTime = true;
         coins = 10;
         roundNum++;
         gameStore();
     }
 }
+#endregion
 
-void animalEncyclopedia(){
-    Console.Clear();
-    Console.Write("\n        Super Auto Pets \n  ____________________________\n\n\n      Animal Encyclopedia\n\n" );
-    foreach (var item in animals){
-        //Console.Write($"  {item.animalName}  ");
-        Console.Write($"\n  Name  : {item.animalName}\n  Health: {item.animalHealth}\n  Damage: {item.animalDmg}\n  __________________________________");
-    }
-    Console.ReadKey();
-    mainMenu();
-}
-
-//Creates objects known as animals
-public class Animals
-{
-    public string animalName { get; set; }
-    public int animalHealth { get; set; }
-    public int animalDmg { get; set; }
-
-    public Animals(string animName, int animHealth, int animDmg)
-    {
-        this.animalName = animName;
-        this.animalHealth = animHealth;
-        this.animalDmg = animDmg;
-    }
-}
-
+#region Functions To-Do List
 // Functionality: 
 // - Make a Main Menu 
 //   - Start the game [Done]
-//   - Add an animal database where user can view all the animals available
+//   - Add an animal database where user can view all the animals available [Done]
 //   - Exit the game [Done]
 // - Make a shop
-//   - Add 3 - 5 random animals from the full animal list to the store. [Done -3 animals]
+//   - Add 3 - 5 random animals from the full animal list to the store. [Done 3 animals]
+//     - Round 1-4 = 3 animals | 1 food [Done Animals]
+//     - Round 5-8 = 4 animals | 2 food [Done Animals]
+//     - Round 9 + = 5 animals | 2 food [Done Animals]
 //   - Add coin system [Done]
 //   - Add player's team with rearrangement feature [Done]
 //   - Add re-roll store feature [Done]
 //   - Add sell option [Done]
-//   - Add freeze shop pets
+//   - Add freeze shop pets [To Do]
 //   - Add food items
-//   - Add Fight button
+//   - Add Fight button [Done]
 //   - Add levels for each animal
 // - Make a battle phase
 //   - Generate random enemy team [Done]
+#endregion
+

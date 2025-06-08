@@ -1,31 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj": {}
+    "E:\\ALL TRANSFER\\C Drive John\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj": {
+    "E:\\ALL TRANSFER\\C Drive John\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
+        "projectUniqueName": "E:\\ALL TRANSFER\\C Drive John\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
         "projectName": "Super Auto Pets",
-        "projectPath": "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
-        "packagesPath": "C:\\Users\\Desktop\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\obj\\",
+        "projectPath": "E:\\ALL TRANSFER\\C Drive John\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\Super Auto Pets.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "E:\\ALL TRANSFER\\C Drive John\\Desktop\\Desktop\\Files\\C#_Practice\\Super Auto Pets\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Desktop\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +39,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -59,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
