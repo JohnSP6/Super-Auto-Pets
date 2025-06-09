@@ -43,3 +43,18 @@ E:\ALL TRANSFER\C Drive John\Desktop\Desktop\Files\C#_Practice\Super Auto Pets\o
 E:\ALL TRANSFER\C Drive John\Desktop\Desktop\Files\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.pdb
 E:\ALL TRANSFER\C Drive John\Desktop\Desktop\Files\C#_Practice\Super Auto Pets\obj\Debug\net8.0\Super Auto Pets.genruntimeconfig.cache
 E:\ALL TRANSFER\C Drive John\Desktop\Desktop\Files\C#_Practice\Super Auto Pets\obj\Debug\net8.0\ref\Super Auto Pets.dll
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\bin\Debug\net8.0\Super Auto Pets.exe
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\bin\Debug\net8.0\Super Auto Pets.deps.json
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\bin\Debug\net8.0\Super Auto Pets.runtimeconfig.json
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\bin\Debug\net8.0\Super Auto Pets.dll
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\bin\Debug\net8.0\Super Auto Pets.pdb
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.AssemblyInfoInputs.cache
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.AssemblyInfo.cs
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.csproj.CoreCompileInputs.cache
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.sourcelink.json
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.dll
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\refint\Super Auto Pets.dll
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.pdb
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\Super Auto Pets.genruntimeconfig.cache
+C:\Users\johns\Downloads\Suoer Auto Pets (Laptop)\Super-Auto-Pets\obj\Debug\net8.0\ref\Super Auto Pets.dll

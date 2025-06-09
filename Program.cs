@@ -36,6 +36,7 @@ mainMenu();
 
 void mainMenu(){
     firstTime = true;
+    frozenPets.Clear();
     Console.Clear();
     // Displays the Main Menu
     Console.Write("\n        Super Auto Pets \n  ____________________________\n\n  1. Play \n  2. Animal Encyclopedia \n  3. Exit \n  ____________________________\n\n  ");
@@ -114,19 +115,20 @@ void gameStore(){
                     tempStore.Add(animals[randomAnimal]);
                 }
             } else {
-                // foreach (var item in frozenPets){
-                //     Console.Write($"  {item.animalName} [FROZEN] \n");
-                // }
+
+                if (frozenPets.Count != 0) { 
+                    foreach (var item in frozenPets){
+                        Console.Write($"  {frozenPets.Count}. {item.animalName} [FROZEN] \n");
+                    }
+                }
                 //Randomly selects 3 animals from full animal list to display in the store
-                for (int i = 1; i < (4 - frozenPets.Count); i++) {
+                for (int i = 1; i < (4 - frozenPets.Count); i++)
+                {
                     Random rnd = new Random();
-                    int randomAnimal  = rnd.Next(0, animals.Count); 
+                    int randomAnimal = rnd.Next(0, animals.Count);
                     Console.WriteLine($"  {i + frozenPets.Count}. {animals[randomAnimal].animalName} ");
                     //Adds the 3 random animals to a new list so the user can select which to choose based on the UI.
                     tempStore.Add(animals[randomAnimal]);
-                }
-                if (frozenPets.Count != 0) {
-                    tempStore.Add(frozenPets[frozenPets.Count - 1]);
                 }
             }
             //Changes the bool values to false to make it so that when the store is refreshed, the store animals are saved
@@ -134,7 +136,7 @@ void gameStore(){
             reroll = false;
         } else {
             foreach (var item in frozenPets){
-                Console.Write($"  {item.animalName} [FROZEN] \n");
+                Console.Write($"  {frozenPets.Count}. {item.animalName} [FROZEN] \n");
             }
             //Displays the store animals
             for (int i = 0; i < tempStore.Count; i++){
@@ -146,53 +148,88 @@ void gameStore(){
         foreach (var item in myTeam){
             Console.Write($" {item.animalName}  ");
         }
-        Console.Write($"\n  __________________________________________________________\n\n  Wins: {wins}                                          Health: {health} \n\n  Please select which animal to purchase. \n  Type 's' to sell a pet. \n  Type 'r' to re-roll store. \n  Type 'b' to start the battle.  \n\n  ");
+        Console.Write($"\n  __________________________________________________________\n\n  Wins: {wins}                                          Health: {health} \n\n  Please select which animal to purchase. \n  Type 's' to sell a pet. \n  Type 'r' to re-roll store. \n  Type 'f' to freeze pets.  \n  Type 'b' to start the battle.  \n\n  ");
         string? choice1 = Console.ReadLine();
         //If the user chooses to reroll the shop
-        if (choice1 == "r" || choice1 == "R") {
+        if (choice1 == "r" || choice1 == "R")
+        {
             coins -= 1;
             reroll = true;
             gameStore();
-        //If the user chooses to sell a pet
-        } else if (choice1 == "s" || choice1 == "S") {
+            //If the user chooses to sell a pet
+        }
+        else if (choice1 == "s" || choice1 == "S")
+        {
             sellPets();
             gameStore();
-        } else if (choice1 == "b" || choice1 == "B") {
+        }
+        else if (choice1 == "b" || choice1 == "B")
+        {
             startBattle();
-        } else if (choice1 == "f" || choice1 == "F"){
-            // foreach (var item in frozenPets){
-            //     Console.Write($" {item.animalName}  ");
-            // }
-            Console.WriteLine("  Which pet would you like to freeze?\n");
+        }
+        else if (choice1 == "f" || choice1 == "F")
+        {
+            Console.WriteLine("  Which pet would you like to freeze?\n  ");
             string? choice3 = Console.ReadLine();
             int choice = Convert.ToInt32(choice3);
             frozenPets.Add(tempStore[choice - 1]);
-        } else {
-            try {
-                int choice2 = Convert.ToInt32(choice1);
+            tempStore.Remove(tempStore[choice - 1]);
+        }
+        else
+        {
+            try
+            {
+                
+                int choice2 = Convert.ToInt32(choice1); 
+
                 //Checks if the user's option exceeds the options given
-                if (choice2 > tempStore.Count) {
+                if (choice2 > (tempStore.Count + frozenPets.Count) ) //CHANGED THIS [FROZE#]
+                {
                     Console.Clear();
-                    Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  " );
+                    Console.Write($"\n  Super Auto Pets \n\n  Sorry, invalid option. Please try again! \n  ");
                     Console.ReadKey();
                     gameStore();
-                } else {
-                    if (myTeam.Count == 5) {
+                }
+                else
+                {
+                    if (myTeam.Count == 5)
+                    {
                         //Console.Clear();
                         Console.Write($"  __________________________________________________________\n\n               Your team is already full. \n   __________________________________________________________");
                         Console.ReadKey();
                         gameStore();
-                    } else {
+                    }
+                    else
+                    {
                         //Deducts coin value upon selecting an animal.
                         coins -= 3;
                         //The object/animal selected by the player is sent to the player's team list and the temp list is cleared. 
-                        myTeam.Add(tempStore[choice2 - 1]);
-                        tempStore.RemoveAt(choice2 - 1);
+
+                        if (frozenPets.Count == 0)
+                        {
+                            myTeam.Add(tempStore[choice2 - 1]);
+                            tempStore.RemoveAt(choice2 - 1);
+                        }
+                        else
+                        {
+                            if (choice2 <= frozenPets.Count)
+                            {
+                                myTeam.Add(frozenPets[choice2 - 1]);
+                                frozenPets.RemoveAt(choice2 - 1);
+                            }
+                            else
+                            { 
+                                myTeam.Add(tempStore[choice2 - 1 - frozenPets.Count]);
+                                tempStore.RemoveAt(choice2 - 1 - frozenPets.Count);
+                            }
+                        }
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.Clear();
-                Console.Write($"\n  Super Auto Pets \n\n  Sorry, wrong input. Please try again! \n\n  {ex.Message}" );
+                Console.Write($"\n  Super Auto Pets \n\n  Sorry, wrong input. Please try again! \n\n  {ex.Message}");
                 Console.ReadKey();
                 gameStore();
             }
@@ -319,6 +356,7 @@ void arrangePets() {
 //Starts the battle. 
 void startBattle () {
     Console.Clear();
+    frozenPets.Clear();
     //Displays player's team in current order
     Console.Write("\n                      Super Auto Pets \n  __________________________________________________________\n\n  Your Team:  " );
     foreach (var item in myTeam){
