@@ -370,3 +370,5 @@ public class Animals
 //   - Add levels for each animal
 // - Make a battle phase
 //   - Generate random enemy team [Done]
+
+//TESTING -merge
